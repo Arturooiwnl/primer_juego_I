@@ -6,10 +6,12 @@ from settings import * # Cosas para los settings
 pygame.init() # Inicia todos los modulos (.display, .mixer, etc )
 
 SCREEN = pygame.display.set_mode(SCREEN_SIZE) #crear la pantalla (800 ancho, 600 de alto)
+fondo = pygame.image.load("imagenes/ciudad.jpg")
 pygame.display.set_allow_screensaver("Mi primer juego") # Cambiar titulo
 
-SCREEN.fill(CUSTOM) # Cambiar color de la pantalla .fill((red, green, blue)) maximo de valor de color es 255
 
+SCREEN.fill(CUSTOM) # Cambiar color de la pantalla .fill((red, green, blue)) maximo de valor de color es 255
+SCREEN.blit(fondo,(0,0))
 contador = 0
 
 is_running = True # bandera para decir que esta andando el progragama

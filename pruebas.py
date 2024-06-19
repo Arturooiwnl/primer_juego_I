@@ -1,12 +1,35 @@
 import pygame
 
-for color in pygame.color.THECOLORS.keys():
-    print(color)
-for value in pygame.color.THECOLORS.values():
-    print(value)
-for key, value in pygame.color.THECOLORS.items():
-    print(key, value)
+# Inicializar Pygame
+pygame.init()
 
-rect_1 = pygame.Rect()
+# Crear la pantalla
+screen = pygame.display.set_mode((800, 600))
 
-# rect_2 = (x,y,ancho,alto)
+# Configurar el texto
+font = pygame.font.Font(None, 74)  # Puedes usar una fuente específica pasando la ruta del archivo de fuente
+text = font.render('Hola, Pygame!', True, (255, 255, 255))
+
+# Posición del texto
+text_rect = text.get_rect(center=(400, 300))
+
+# Bucle principal
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Llenar la pantalla de negro
+    screen.fill((0, 0, 0))
+
+    # Dibujar el texto en la pantalla
+    screen.blit(text, text_rect)
+
+    # Actualizar la pantalla
+    pygame.display.flip()
+
+# Salir de Pygame
+pygame.quit()
+
+

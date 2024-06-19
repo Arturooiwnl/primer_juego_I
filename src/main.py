@@ -10,17 +10,26 @@ fondo = pygame.image.load("imagenes/ciudad_bien.png").convert() #.convert se uti
 icon = pygame.image.load("imagenes/escudo_icon.png")
 pygame.display.set_caption("Am I a test?") # Cambiar titulo
 pygame.display.set_icon(icon) # cambiar icono
+# image = pygame.image.load("imagenes/escudo_icon.png")
+# image = pygame.transform.scale(image, (50, 50)) # escalar la imagen a 50x50 px
 
+rect_1 = pygame.Rect(400,300, 200, 100)
 
-rect_1 = pygame.Rect(0, 0, 200, 100)
+# # font = pygame.font.Font("rocks.ttf", 30)
 
+# # System Font
+# font = pygame.font.SysFont("Garamond", 30)
+
+# textsurface = font.render("Some Text", False, (200, 200, 200))
 speed = 3
 gravedad = True
+
+
+speed_x, speed_y = 5, 5
 
     # rect_2 =pygame.draw.rect(SCREEN, RED, (0, 0, 200, 100)) # pintar
 
     # rect_3 = pygame.draw.rect(SCREEN, GREEN, SCREEN_CENTER, 75, 3) 
-
 
 
 
@@ -34,20 +43,38 @@ while is_running:
     # print(contador)
     # contador += 1 # contador para ver cuanto se itera
     for event in pygame.event.get(): # pygame.event.get() devuelve una lista de los eventos que ocurrieron
+        # tecla = pygame.key.get_pressed()
+        # print(tecla)
         if event.type == pygame.QUIT: # pygame.QUIT = 256, numero del evento para cerrar (quit) | Todos los eventos tienen un valor numérico y aparecen como constante
-            is_running = False
+            is_running = False  
+    # print(event)
 
 
-    if gravedad:
-        if rect_1.bottom <= ALTO:
-            rect_1.y += speed
-        else:
-            gravedad = False
-    else:
-        if rect_1.top >= 0:
-            rect_1.y -= speed
-        else:
-            gravedad = True
+    rect_1.x += speed_x
+    rect_1.y += speed_y 
+
+    if rect_1.left <= 0 or rect_1.right >= ANCHO:
+        speed_x = -speed_x
+    if rect_1.top <= 0 or rect_1.bottom >= ALTO:
+        speed_y = -speed_y
+
+
+    # if gravedad:
+    #     if rect_1.bottom <= ALTO:
+    #         rect_1.y += speed
+    #         rect_1.x += speed	
+    #     else:
+    #         gravedad = False
+    # else:
+    #     if rect_1.top >= 0:
+    #         rect_1.y -= speed
+    #         rect_1.x -= speed
+    #         if rect_1.top >= SUM_SCREEN_CENTER:
+    #             rect_1.x -= speed
+    #         else:
+    #             rect_1.y +=speed
+    #     else:
+    #         gravedad = True
     # if rect_1.bottom <= ALTO:
     #     rect_1.y += speed # le agrego a y
     # # else:
@@ -55,9 +82,15 @@ while is_running:
     # elif rect_1.bottom == ALTO
     # # if rect_1.top >= 0:
     # #     rect_1.y -= speed
-
-    SCREEN.fill(CUSTOM)
-    pygame.draw.rect(SCREEN, RED, rect_1)
+    center_x = rect_1.centerx
+    center_y = rect_1.centery
+    radius = 50
+    # SCREEN.blit(textsurface, (100, 100))
+    SCREEN.blit(fondo,(x,y))
+    pygame.draw.rect(SCREEN,RED,rect_1)
+    # image_rect = rect_1.get_rect(center=(center_x, center_y))
+    # SCREEN.blit(rect_1, (center_x,center_y))-
+    # pygame.draw.circle(SCREEN, RED, (center_x,center_y), radius)
 
 
 

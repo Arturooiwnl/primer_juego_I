@@ -16,7 +16,7 @@ image_silla = pygame.image.load("imagenes/muebles/silla.png")
 image_silla = pygame.transform.scale(image_silla, (110, 110))
 
 pygame.display.set_icon(icon)
-pygame.display.set_caption("Tycoon Roblox en PyGame")
+pygame.display.set_caption("Tycoon en PyGame")
 
 clock = pygame.time.Clock()
 
@@ -58,7 +58,7 @@ def remove_resources(amount):
 def draw_interfaz(screen):
     screen.blit(fondo,(0,0))
     if open_main_menu == True:
-        draw_rect(screen, main_menu_rect, "TYCOON EN ROBLOX", NEGRO,menu_font_title, GREEN, (400,100))
+        draw_rect(screen, main_menu_rect, "TYCOON EN PYGAME", NEGRO,menu_font_title, GREEN, (400,100))
         draw_button(screen, play_button, "JUGAR", NEGRO, LIGHT_BLUE, mouse_pos)
         draw_button(screen, close_button, "CERRAR", NEGRO, RED, mouse_pos)
         screen.blit(image_menu,(325,130))
@@ -103,25 +103,26 @@ def new_rect():
 
 new_rect() # ya creo los rect
 def draw_menu_resources(screen):
-    if open_menu_resources_rect == True:
-        pygame.draw.rect(screen, GRAY, menu_resources_rect, 0, 10)
-        draw_button(screen, fabric_1_button, "[1]", NEGRO, BLANCO, mouse_pos)
-        draw_button(screen, fabric_2_button, "[2]", NEGRO, BLANCO, mouse_pos)
-        draw_button(screen, fabric_3_button, "[3]", NEGRO, BLANCO, mouse_pos)
-        draw_button(screen, fabric_4_button, "[4]", NEGRO, BLANCO, mouse_pos)
-        y_offset = 150
-        resource_title_txt = "Lista de Fabricación"
-        text_surface = menu_font_title.render(resource_title_txt, True, NEGRO)
-        screen.blit(text_surface, (300, 100))
-        for resource in resources_list:
-            resource_text = f"[{resource['index']}] {resource['mat']} - Precio: ${resource['precio']}"
-            text_surface = menu_font.render(resource_text, True, NEGRO)
-            screen.blit(text_surface, (300, y_offset))
-            y_offset += 50
-    if dialog_on == True:
-        draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
-        draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
-        draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
+    if open_main_menu == False:
+        if open_menu_resources_rect == True:
+            pygame.draw.rect(screen, GRAY, menu_resources_rect, 0, 10)
+            draw_button(screen, fabric_1_button, "[1]", NEGRO, BLANCO, mouse_pos)
+            draw_button(screen, fabric_2_button, "[2]", NEGRO, BLANCO, mouse_pos)
+            draw_button(screen, fabric_3_button, "[3]", NEGRO, BLANCO, mouse_pos)
+            draw_button(screen, fabric_4_button, "[4]", NEGRO, BLANCO, mouse_pos)
+            y_offset = 150
+            resource_title_txt = "Lista de Fabricación"
+            text_surface = menu_font_title.render(resource_title_txt, True, NEGRO)
+            screen.blit(text_surface, (300, 100))
+            for resource in resources_list:
+                resource_text = f"[{resource['index']}] {resource['mat']} - Precio: ${resource['precio']}"
+                text_surface = menu_font.render(resource_text, True, NEGRO)
+                screen.blit(text_surface, (300, y_offset))
+                y_offset += 50
+        if dialog_on == True:
+            draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
+            draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
+            draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
 
 def draw_button(screen, rect, text, text_color, rect_color, mouse_pos):
     # Crear una copia del rectángulo para inflarlo temporalmente
@@ -257,7 +258,39 @@ while running:
             elif dialog_no_button.collidepoint(mouse_pos):
                 dialog_on = False
                 silla = False
-            
+            elif fabric_2_button.collidepoint(mouse_pos):
+                dialog_on = True
+                mesa = True
+            elif dialog_yes_button.collidepoint(mouse_pos):
+                spend_money(100)
+                add_resources(1)
+                dialog_on = False
+                mesa = False
+            elif dialog_no_button.collidepoint(mouse_pos):
+                dialog_on = False
+                mesa = False
+            elif fabric_3_button.collidepoint(mouse_pos):
+                dialog_on = True
+                cama = True
+            elif dialog_yes_button.collidepoint(mouse_pos):
+                spend_money(70)
+                add_resources(1)
+                dialog_on = False
+                cama = False
+            elif dialog_no_button.collidepoint(mouse_pos):
+                dialog_on = False
+                cama = False
+            elif fabric_4_button.collidepoint(mouse_pos):
+                dialog_on = True
+                armario = True
+            elif dialog_yes_button.collidepoint(mouse_pos):
+                spend_money(150)
+                add_resources(1)
+                dialog_on = False
+                armario = False
+            elif dialog_no_button.collidepoint(mouse_pos):
+                dialog_on = False
+                armario = False
             # CERRAR y ABRIR ESTADISTICAS
             elif estadistica_button_off.collidepoint(mouse_pos):
                 estadistica_button_off.x = -300 
@@ -286,9 +319,16 @@ while running:
     screen.blit(fondo,(0,0))
     draw_interfaz(screen)
     draw_menu_resources(screen)
-    if silla == True:
-        create_text("(Silla)",quest_font,NEGRO,(375,110))
-        screen.blit(image_silla,(345,140))
+    if open_main_menu == False:
+        if silla == True:
+            create_text("(Silla)",quest_font,NEGRO,(375,110))
+            screen.blit(image_silla,(345,140))
+        if mesa == True:    
+            create_text("(Mesa)",quest_font,NEGRO,(375,110))
+        if cama == True:    
+            create_text("(Cama)",quest_font,NEGRO,(375,110))
+        if armario == True:    
+            create_text("(Armario)",quest_font,NEGRO,(375,110))
 
     pygame.display.flip()
     clock.tick(60)

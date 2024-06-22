@@ -1,19 +1,38 @@
 import pygame
 import sys
 
-
-# Inicializar Pygame
 pygame.init()
 
-# Configurar la pantalla
 screen = pygame.display.set_mode((800, 600))
+
+#imagenes
 fondo = pygame.image.load("imagenes/principal/ciudad_bien.png")
 icon = pygame.image.load("imagenes/principal/escudo_icon.png")
+
 image_menu = pygame.image.load("imagenes/principal/fabric_menu.jpg")
 image_menu = pygame.transform.scale(image_menu, (150, 150))
 
 image_silla = pygame.image.load("imagenes/muebles/silla.png")
 image_silla = pygame.transform.scale(image_silla, (110, 110))
+image_cama = pygame.image.load("imagenes/muebles/cama.png")
+image_cama = pygame.transform.scale(image_cama, (110, 110))
+image_mesa = pygame.image.load("imagenes/muebles/mesa.png")
+image_mesa = pygame.transform.scale(image_mesa, (110, 110))
+image_armario = pygame.image.load("imagenes/muebles/armario.png")
+image_armario = pygame.transform.scale(image_armario, (110, 110))
+
+#sonidos 
+
+sound_yes = pygame.mixer.Sound("sounds/buttons/yes1.mp3")
+sound_no = pygame.mixer.Sound("sounds/buttons/no1.mp3")
+open_1 = pygame.mixer.Sound("sounds/buttons/open1.mp3")
+close_1 = pygame.mixer.Sound("sounds/buttons/cerrar1.mp3")
+click_1 = pygame.mixer.Sound("sounds/buttons/click1.mp3")
+
+pygame.mixer.music.load("sounds/music/inicio.mp3")
+pygame.mixer.music.set_volume(1)  # Reproducir en bucle
+pygame.mixer.music.play(-1)  # Reproducir en bucle
+
 
 pygame.display.set_icon(icon)
 pygame.display.set_caption("Tycoon en PyGame")
@@ -119,10 +138,27 @@ def draw_menu_resources(screen):
                 text_surface = menu_font.render(resource_text, True, NEGRO)
                 screen.blit(text_surface, (300, y_offset))
                 y_offset += 50
-        if dialog_on == True:
-            draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
-            draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
-            draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
+            is_dialog_on(screen)
+            # if dialog_on == True:
+            #     draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
+            #     draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
+            #     draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
+            #     if silla == True:
+            #         screen.blit(image_silla,(345,140))
+
+def is_dialog_on(screen):
+    if dialog_on == True:
+        draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
+        draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
+        draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
+        if silla == True:
+            screen.blit(image_silla,(345,140))
+        if mesa == True:
+            screen.blit(image_mesa,(345,140))
+        if cama == True:
+            screen.blit(image_cama,(345,140))
+        if armario == True:
+            screen.blit(image_armario,(345,140))
 
 def draw_button(screen, rect, text, text_color, rect_color, mouse_pos):
     # Crear una copia del rectángulo para inflarlo temporalmente
@@ -146,6 +182,7 @@ def create_text(text, font, color, pos):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect(topleft=pos)
     screen.blit(text_surface, text_rect)
+
 
 
 
@@ -237,58 +274,77 @@ while running:
             # ABRIR MENU RECURSOS
             elif menu_button.collidepoint(mouse_pos):
                 # if event.button == 1: #Click izq
+                open_1.play()
                 menu_button.x = -275
-                button_menu_resources_rect_on = True
                 open_menu_resources_rect = True
+                button_menu_resources_rect_on = True
                     
             # CERRAR MENU RECURSOS
             elif menu_button_off.collidepoint(mouse_pos):
                 # if event.button == 3: #click derecho
-                    menu_button.x = 275
-                    open_menu_resources_rect = False
-                    button_menu_resources_rect_on = False
+                close_1.play()
+                menu_button.x = 275
+                open_menu_resources_rect = False
+                button_menu_resources_rect_on = False
+
             elif fabric_1_button.collidepoint(mouse_pos):
+                click_1.play()
                 dialog_on = True
                 silla = True
             elif dialog_yes_button.collidepoint(mouse_pos):
-                spend_money(50)
-                add_resources(1)
+                sound_yes.play()
+                if silla:
+                    spend_money(50)
+                    add_resources(1)
                 dialog_on = False
                 silla = False
             elif dialog_no_button.collidepoint(mouse_pos):
+                sound_no.play()
                 dialog_on = False
                 silla = False
             elif fabric_2_button.collidepoint(mouse_pos):
+                click_1.play()
                 dialog_on = True
                 mesa = True
             elif dialog_yes_button.collidepoint(mouse_pos):
-                spend_money(100)
-                add_resources(1)
+                sound_yes.play()
+                if mesa:
+                    spend_money(100)
+                    add_resources(1)
                 dialog_on = False
                 mesa = False
             elif dialog_no_button.collidepoint(mouse_pos):
+                sound_no.play()
                 dialog_on = False
                 mesa = False
             elif fabric_3_button.collidepoint(mouse_pos):
+                click_1.play()
                 dialog_on = True
                 cama = True
             elif dialog_yes_button.collidepoint(mouse_pos):
-                spend_money(70)
-                add_resources(1)
+                sound_yes.play()
+                if cama:
+                    spend_money(70)
+                    add_resources(1)
                 dialog_on = False
                 cama = False
             elif dialog_no_button.collidepoint(mouse_pos):
+                sound_no.play()
                 dialog_on = False
                 cama = False
             elif fabric_4_button.collidepoint(mouse_pos):
+                click_1.play()
                 dialog_on = True
                 armario = True
             elif dialog_yes_button.collidepoint(mouse_pos):
-                spend_money(150)
-                add_resources(1)
+                sound_yes.play()
+                if armario:
+                    spend_money(150)
+                    add_resources(1)
                 dialog_on = False
                 armario = False
             elif dialog_no_button.collidepoint(mouse_pos):
+                sound_no.play()
                 dialog_on = False
                 armario = False
             # CERRAR y ABRIR ESTADISTICAS
@@ -301,6 +357,7 @@ while running:
         # CERRAR y ABRIR MENU
             elif play_button.collidepoint(mouse_pos):
                 open_main_menu = False
+                click_1.play()
             elif close_button.collidepoint(mouse_pos):
                 running = False
         elif event.type == pygame.KEYDOWN:
@@ -319,16 +376,16 @@ while running:
     screen.blit(fondo,(0,0))
     draw_interfaz(screen)
     draw_menu_resources(screen)
-    if open_main_menu == False:
-        if silla == True:
-            create_text("(Silla)",quest_font,NEGRO,(375,110))
-            screen.blit(image_silla,(345,140))
-        if mesa == True:    
-            create_text("(Mesa)",quest_font,NEGRO,(375,110))
-        if cama == True:    
-            create_text("(Cama)",quest_font,NEGRO,(375,110))
-        if armario == True:    
-            create_text("(Armario)",quest_font,NEGRO,(375,110))
+    # if open_main_menu == False: 
+        # if silla == True:
+            # create_text("(Silla)",quest_font,NEGRO,(375,110))
+            # screen.blit(image_silla,(345,140))
+        # if mesa == True:    
+        #     create_text("(Mesa)",quest_font,NEGRO,(375,110))
+        # if cama == True:    
+        #     create_text("(Cama)",quest_font,NEGRO,(375,110))
+        # if armario == True:    
+        #     create_text("(Armario)",quest_font,NEGRO,(375,110))
 
     pygame.display.flip()
     clock.tick(60)

@@ -30,7 +30,7 @@ close_1 = pygame.mixer.Sound("sounds/buttons/cerrar1.mp3")
 click_1 = pygame.mixer.Sound("sounds/buttons/click1.mp3")
 
 pygame.mixer.music.load("sounds/music/inicio.mp3")
-pygame.mixer.music.set_volume(1)  # Reproducir en bucle
+pygame.mixer.music.set_volume(0.5)  # Reproducir en bucle
 pygame.mixer.music.play(-1)  # Reproducir en bucle
 
 
@@ -351,9 +351,11 @@ while running:
             elif estadistica_button_off.collidepoint(mouse_pos):
                 estadistica_button_off.x = -300 
                 estadisticas_on = False
+                click_1.play()
             elif estadistica_button.collidepoint(mouse_pos):
                 estadisticas_on = True
                 estadistica_button_off.x = 30 
+                click_1.play()
         # CERRAR y ABRIR MENU
             elif play_button.collidepoint(mouse_pos):
                 open_main_menu = False
@@ -363,9 +365,6 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 open_main_menu = True   
-
-
-
 
     if msg or msg_sell:
         timer_actual = pygame.time.get_ticks()

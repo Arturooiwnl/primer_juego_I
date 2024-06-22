@@ -30,7 +30,7 @@ close_1 = pygame.mixer.Sound("sounds/buttons/cerrar1.mp3")
 click_1 = pygame.mixer.Sound("sounds/buttons/click1.mp3")
 
 pygame.mixer.music.load("sounds/music/inicio.mp3")
-pygame.mixer.music.set_volume(0.5)  # Reproducir en bucle
+pygame.mixer.music.set_volume(0.1)  # Reproducir en bucle
 pygame.mixer.music.play(-1)  # Reproducir en bucle
 
 
@@ -147,17 +147,30 @@ def draw_menu_resources(screen):
             #         screen.blit(image_silla,(345,140))
 
 def is_dialog_on(screen):
+    global silla, mesa, armario, cama
     if dialog_on == True:
         draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
         draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
         draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
         if silla == True:
+            # cama = False
+            # armario = False
+            # mesa = False
             screen.blit(image_silla,(345,140))
         if mesa == True:
+            # silla = False
+            # cama = False
+            # armario = False
             screen.blit(image_mesa,(345,140))
         if cama == True:
+            # silla = False
+            # mesa = False
+            # armario = False
             screen.blit(image_cama,(345,140))
         if armario == True:
+            # mesa = False
+            # silla = False
+            # cama = False
             screen.blit(image_armario,(345,140))
 
 def draw_button(screen, rect, text, text_color, rect_color, mouse_pos):
@@ -291,6 +304,9 @@ while running:
                 click_1.play()
                 dialog_on = True
                 silla = True
+                cama = False
+                armario = False
+                mesa = False
             elif dialog_yes_button.collidepoint(mouse_pos):
                 sound_yes.play()
                 if silla:
@@ -306,11 +322,13 @@ while running:
                 click_1.play()
                 dialog_on = True
                 mesa = True
+                silla = False
+                cama = False
+                armario = False
             elif dialog_yes_button.collidepoint(mouse_pos):
                 sound_yes.play()
-                if mesa:
-                    spend_money(100)
-                    add_resources(1)
+                spend_money(100)
+                add_resources(1)
                 dialog_on = False
                 mesa = False
             elif dialog_no_button.collidepoint(mouse_pos):
@@ -321,6 +339,9 @@ while running:
                 click_1.play()
                 dialog_on = True
                 cama = True
+                silla = False
+                armario = False
+                mesa = False
             elif dialog_yes_button.collidepoint(mouse_pos):
                 sound_yes.play()
                 if cama:
@@ -336,6 +357,9 @@ while running:
                 click_1.play()
                 dialog_on = True
                 armario = True
+                mesa = False
+                silla = False
+                cama = False
             elif dialog_yes_button.collidepoint(mouse_pos):
                 sound_yes.play()
                 if armario:

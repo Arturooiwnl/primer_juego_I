@@ -9,6 +9,8 @@ MEDIO_WIDTH = WIDTH //2
 MEDIO_HEIGHT = HEIGHT //2
 SUM_SCREEN_CENTER = MEDIO_WIDTH + MEDIO_HEIGHT
 
+ORIGIN = (0,0)
+
 print(SUM_SCREEN_CENTER)
 
 # 1000, 600
@@ -36,7 +38,7 @@ clock = pygame.time.Clock()
 colors = [RED,GREEN,BLUE,CUSTOM]
 
 SPEED = 5
-INITIAL_QTY_COINS = 10
+INITIAL_QTY_COINS = 30
 
 
 UR = 9
@@ -45,3 +47,8 @@ DL = 1
 UL = 7
 
 direcciones = (UR, DR, DL, UL)
+
+rect_w = 50
+rect_h = 50
+player_w = 50
+player_h = 50

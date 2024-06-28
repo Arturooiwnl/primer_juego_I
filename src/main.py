@@ -53,9 +53,9 @@ while is_running:
     rect_1.x += speed_x
     rect_1.y += speed_y 
 
-    if rect_1.left <= 0 or rect_1.right >= ANCHO:
+    if rect_1.left <= 0 or rect_1.right >= WIDTH:
         speed_x = -speed_x
-    if rect_1.top <= 0 or rect_1.bottom >= ALTO:
+    if rect_1.top <= 0 or rect_1.bottom >= HEIGHT:
         speed_y = -speed_y
 
 

@@ -78,8 +78,8 @@ def draw_interfaz(screen):
     screen.blit(fondo,(0,0))
     if open_main_menu == True:
         draw_rect(screen, main_menu_rect, "TYCOON EN PYGAME", NEGRO,menu_font_title, GREEN, (400,100))
-        draw_button(screen, play_button, "JUGAR", NEGRO, LIGHT_BLUE, mouse_pos)
-        draw_button(screen, close_button, "CERRAR", NEGRO, RED, mouse_pos)
+        draw_button(screen, play_button, "JUGAR", NEGRO, LIGHT_BLUE,GRAY, mouse_pos)
+        draw_button(screen, close_button, "CERRAR", NEGRO, RED,GRAY, mouse_pos)
         screen.blit(image_menu,(325,130))
     else:
         if estadisticas_on == True:
@@ -89,16 +89,16 @@ def draw_interfaz(screen):
             screen.blit(money_text, (40, 70))
             screen.blit(resources_text, (40, 100))
 
-        draw_button(screen, sell_button, "Vender +1 recurso", NEGRO, GREEN, mouse_pos)
-        draw_button(screen, buy_button, "Comprar +1 recurso", NEGRO, RED, mouse_pos)
-        draw_button(screen, menu_button, "Menú de Fabricación", NEGRO, GRAY, mouse_pos)
+        draw_button(screen, sell_button, "Vender +1 recurso", NEGRO, GREEN,GRAY, mouse_pos)
+        draw_button(screen, buy_button, "Comprar +1 recurso", NEGRO, RED,GRAY, mouse_pos)
+        draw_button(screen, menu_button, "Menú de Fabricación", NEGRO, GRAY,GRAY, mouse_pos)
 
         if button_menu_resources_rect_on == True:
-            draw_button(screen, menu_button_off, "Cerrar Menú de Fabricación", NEGRO, GRAY, mouse_pos)
+            draw_button(screen, menu_button_off, "Cerrar Menú de Fabricación", NEGRO, GRAY,GRAY, mouse_pos)
         if estadisticas_on == True:
-            draw_button(screen, estadistica_button_off, "Ocultar Estadisticas", NEGRO, LIGHT_BLUE, mouse_pos)
+            draw_button(screen, estadistica_button_off, "Ocultar Estadisticas", NEGRO, LIGHT_BLUE,GRAY, mouse_pos)
         else:
-            draw_button(screen, estadistica_button, "Mostrar Estadisticas", NEGRO, LIGHT_BLUE, mouse_pos)
+            draw_button(screen, estadistica_button, "Mostrar Estadisticas", NEGRO, LIGHT_BLUE,GRAY, mouse_pos)
 
         if msg:
             msg_text = msg_font.render(msg, True, RED)
@@ -125,10 +125,10 @@ def draw_menu_resources(screen):
     if open_main_menu == False:
         if open_menu_resources_rect == True:
             pygame.draw.rect(screen, GRAY, menu_resources_rect, 0, 10)
-            draw_button(screen, fabric_1_button, "[1]", NEGRO, BLANCO, mouse_pos)
-            draw_button(screen, fabric_2_button, "[2]", NEGRO, BLANCO, mouse_pos)
-            draw_button(screen, fabric_3_button, "[3]", NEGRO, BLANCO, mouse_pos)
-            draw_button(screen, fabric_4_button, "[4]", NEGRO, BLANCO, mouse_pos)
+            draw_button(screen, fabric_1_button, "[1]", NEGRO, BLANCO,GRAY, mouse_pos)
+            draw_button(screen, fabric_2_button, "[2]", NEGRO, BLANCO,GRAY, mouse_pos)
+            draw_button(screen, fabric_3_button, "[3]", NEGRO, BLANCO,GRAY, mouse_pos)
+            draw_button(screen, fabric_4_button, "[4]", NEGRO, BLANCO,GRAY, mouse_pos)
             y_offset = 150
             resource_title_txt = "Lista de Fabricación"
             text_surface = menu_font_title.render(resource_title_txt, True, NEGRO)
@@ -150,8 +150,8 @@ def is_dialog_on(screen):
     global silla, mesa, armario, cama
     if dialog_on == True:
         draw_rect(screen, dialog_yes_no_rect, "¿Fabricar este mueble?", NEGRO,menu_font_title, BLANCO, (400,100))
-        draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN, mouse_pos)
-        draw_button(screen, dialog_no_button, "NO", NEGRO, RED, mouse_pos)
+        draw_button(screen, dialog_yes_button, "SI", NEGRO, GREEN,GRAY, mouse_pos)
+        draw_button(screen, dialog_no_button, "NO", NEGRO, RED,GRAY, mouse_pos)
         if silla == True:
             # cama = False
             # armario = False
@@ -173,13 +173,13 @@ def is_dialog_on(screen):
             # cama = False
             screen.blit(image_armario,(345,140))
 
-def draw_button(screen, rect, text, text_color, rect_color, mouse_pos):
+def draw_button(screen, rect, text, text_color, rect_color,rect_color_temp, mouse_pos):
     # Crear una copia del rectángulo para inflarlo temporalmente
     temp_rect = rect.copy()
     if temp_rect.collidepoint(mouse_pos):
         temp_rect.inflate_ip(10, 10)
-
-    pygame.draw.rect(screen, rect_color, temp_rect, 0, 10)
+        pygame.draw.rect(screen, rect_color, temp_rect, 0, 10)
+        # rect_color = rect_color_temp
     text_surface = button_font.render(text, True, text_color)
     text_rect = text_surface.get_rect(center=temp_rect.center)
     screen.blit(text_surface, text_rect)

@@ -18,14 +18,30 @@ def create_player(imagen=None):
         imagen = pygame.transform.scale(imagen, (player_w, player_h))
     return create_block(imagen, randint(0, WIDTH - player_w), randint(0, HEIGHT - player_h), player_w, player_h, dir=direcciones[randrange(len(direcciones))], color=randint(0, WIDTH - player_w))
 
-def create_coin(imagen=None):
+def create_coin(imagen=None,visible= True):
     coin_width = 30
     coin_height = 30
     velocidad = 2  # Velocidad de la moneda
+    if visible:
+        y =  randint(0, HEIGHT-coin_height)
+    else:
+        y =  0 - randint(0, HEIGHT-coin_height)
     if imagen:
         imagen = pygame.transform.scale(imagen, (coin_width, coin_height))
-    return create_block(imagen, randint(0, WIDTH-coin_width), randint(0, HEIGHT-coin_height), coin_width, coin_height, YELLLOW, 0, velocidad, coin_height//2)
+    a = create_block(imagen, randint(0, WIDTH-coin_width), y, coin_width, coin_height, YELLLOW, 0, velocidad, coin_height//2)
+    a["velocidad"] = randint(min_speed_asteroid,max_speed_asteroid)
+    return a
+
+def create_laser(midbottom=(0,0),color = RED):
+    rect = pygame.Rect(0,0,laser_w,laser_h)
+    rect.midbottom = midbottom
+    return {"rect": rect, "color": color,"velocidad":laser_speed}
+
+
+
+
+
 
 def load_coin_list(lista, cantidad, imagen=None):
     for _ in range(cantidad):
-        lista.append(create_coin(imagen))
+        lista.append(create_coin(imagen,False))

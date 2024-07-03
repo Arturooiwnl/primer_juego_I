@@ -29,6 +29,7 @@ x = 0
 
 FPS = 60
 clock = pygame.time.Clock()
+TIME_GAME = 30*FPS
 
 # FUNCIONES DE TECLAS
 
@@ -53,6 +54,15 @@ player_w = 70
 player_h = 70
 player_d = 3
 SPEED = 5
+
+speed_asteroid = 5
+min_speed_asteroid = 3
+max_speed_asteroid = 8
+
+laser_w = 6
+laser_h = 16
+
+laser_speed = 5
 
 # Directions
 direcciones = [0,1,2,3]

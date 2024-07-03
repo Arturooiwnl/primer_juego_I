@@ -71,24 +71,24 @@ clock = pygame.time.Clock()
 # configuracion pantalla principal
 screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption("Primer Jueguito")
-pygame.display.set_icon(pygame.image.load("assets/imagenes/nave-espacial.png"))
+pygame.display.set_icon(pygame.image.load("./src/assets/imagenes/nave-espacial.png"))
 
 
 # Cargo imagenes
 
-img_ovni = pygame.image.load("assets/imagenes/ovni.png")
-asteroide_1 = pygame.image.load("assets/imagenes/asteroide.png")
-asteroide_2 = pygame.image.load("assets/imagenes/asteroide2.png")
+img_ovni = pygame.image.load("./src/assets/imagenes/ovni.png")
+asteroide_1 = pygame.image.load("./src/assets/imagenes/asteroide.png")
+asteroide_2 = pygame.image.load("./src/assets/imagenes/asteroide2.png")
 
 
 
-img_background = pygame.transform.scale(pygame.image.load("assets/imagenes/fondo.jpg"), SCREEN_SIZE)
-img_start_button = pygame.transform.scale(pygame.image.load("assets/imagenes/start_button.png"), (250,250))
+img_background = pygame.transform.scale(pygame.image.load("./src/assets/imagenes/fondo.jpg"), SCREEN_SIZE)
+img_start_button = pygame.transform.scale(pygame.image.load("./src/assets/imagenes/start_button.png"), (250,250))
 
 
 start_button_center_rect = img_start_button.get_rect(center=POS_PLAY_BUTTON)
 # SOUNDS
-collision_sound = pygame.mixer.Sound("assets/sounds/coin.mp3")
+collision_sound = pygame.mixer.Sound("./src/assets/sounds/coin.mp3")
 playing_music = True
 
 rect_w = 100
@@ -142,19 +142,14 @@ coins = []
 load_coin_list(coins,INITIAL_QTY_COINS,asteroide_1)
 
 
-fuente_2 = pygame.font.Font("assets/font/dash-horizon.otf",50)
+fuente_2 = pygame.font.Font("./src/assets/font/dash-horizon.otf",50)
 
 
 score = 0
 
 text = font.render(f"Puntaje : {score}",False,RED)
 
-
-
-
-
 is_running = True
-
 
 pygame.mouse.set_visible(True)
 screen.fill(BLACK)
@@ -171,12 +166,14 @@ pygame.mouse.set_visible(False)
 
 count_game_over = TIME_GAME
 
+vida_nave = 3
+laser=None
 
 while is_running:
-    if count_game_over > 0:
-        count_game_over-=1
-    else:
-        is_running = False
+    # if count_game_over > 0:
+    #     count_game_over-=1
+    # else:
+    #     is_running = False
 
     clock.tick(FPS)
     # ----> detectar los eventos
@@ -185,6 +182,9 @@ while is_running:
             is_running = False
         # eventos presionar tecla
         if evento.type == KEYDOWN:
+            if evento.key == K_f:
+                if not laser:
+                    laser = create_laser(block["rect"].midtop)
             if evento.key == K_LEFT:
                 move_left = True
                 move_right = False
@@ -247,15 +247,31 @@ while is_running:
     
     pygame.mouse.set_pos(block["rect"].center)
 
-     # ne fijo si el player choca contra una coin       
+    for coin in coins:
+        coin["rect"].move_ip(0, coin["velocidad"])
+        if coin["rect"].top > HEIGHT:
+            coin["rect"].bottom = 0
+
+        if laser:
+            laser["rect"].move_ip(0, -laser["velocidad"])
+            if laser["rect"].bottom <0:
+                laser = None
+     
     for coin in coins[:]:
-        if detectar_colision_circulo(block["rect"], coin["rect"]):
-            coins.remove(coin)
-            collision_sound.play()
-            score+=1
-            text = font.render(f"Puntaje : {score}",False,RED)
-            if len(coins) == 0:
-                load_coin_list(coins,INITIAL_QTY_COINS,asteroide_2)
+        if laser:
+            if detectar_colision_circulo(laser["rect"], coin["rect"]):
+                coins.remove(coin)
+                laser = None
+                collision_sound.play()
+                score+=1
+                text = font.render(f"Puntaje : {score}",False,RED)
+                if len(coins) == 0:
+                    load_coin_list(coins,INITIAL_QTY_COINS,asteroide_2)
+            if detectar_colision_circulo(block["rect"], coin["rect"]):
+                coins.remove(coin)
+                vida_nave-=1
+                # if vida_nave == 0:
+                #     is_running = False
 
     # dibujar pantalla
 
@@ -266,6 +282,9 @@ while is_running:
             screen.blit(coin["img"], coin["rect"])
         else:
             pygame.draw.rect(screen, coin["color"],coin["rect"],border_radius= coin["radio"])
+
+    if laser:
+        pygame.draw.rect(screen,laser["color"],laser["rect"])
 
     screen.blit(text,(350,20))
     # actualizo la pantalla

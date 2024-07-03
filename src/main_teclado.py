@@ -6,6 +6,12 @@ from settings import *
 from bloques import *
 from math import sqrt
 from pygame.locals import *
+from sys import exit
+
+
+def terminar():
+    pygame.quit()
+    exit()
 
 def mostrar_texto(superficie,texto,fuente,coord,color= RED,color_fondo =BLACK):
     render = fuente.render(texto,False,color,color_fondo)
@@ -17,6 +23,8 @@ def wait_user(tecla):
     continuar = True
     while continuar:
         for evento in pygame.event.get():
+            if evento.type == QUIT:
+                terminar()
             if evento.type == KEYDOWN:
                 if evento.key == tecla:
                     continuar = False
@@ -26,6 +34,8 @@ def wait_user_click(rect_img: pygame.Rect):
     while continuar:
         for evento in pygame.event.get():
             if evento.type == MOUSEBUTTONDOWN:
+                if evento.type == QUIT:
+                    terminar()
                 if evento.button == 1:
                     if punto_en_rectangulo(evento.pos,rect_img):
                         continuar = False
@@ -41,9 +51,9 @@ move_up = False
 move_down = False
 
 
-NEWCOINEVENT = USEREVENT +1
+# NEWCOINEVENT = USEREVENT +1
 
-pygame.time.set_timer
+# pygame.time.set_timer
 
 
 
@@ -63,19 +73,19 @@ pygame.display.set_caption("Primer Jueguito")
 
 # Cargo imagenes
 
-img_ovni = pygame.image.load("assets/ovni.png")
-asteroide_1 = pygame.image.load("assets/asteroide.png")
-asteroide_2 = pygame.image.load("assets/asteroide2.png")
+img_ovni = pygame.image.load("assets/imagenes/ovni.png")
+asteroide_1 = pygame.image.load("assets/imagenes/asteroide.png")
+asteroide_2 = pygame.image.load("assets/imagenes/asteroide2.png")
 
 
 
-img_background = pygame.transform.scale(pygame.image.load("assets/fondo.jpg"), SCREEN_SIZE)
-img_start_button = pygame.transform.scale(pygame.image.load("assets/start_button.png"), (250,250))
+img_background = pygame.transform.scale(pygame.image.load("assets/imagenes/fondo.jpg"), SCREEN_SIZE)
+img_start_button = pygame.transform.scale(pygame.image.load("assets/imagenes/start_button.png"), (250,250))
 
 
 start_button_center_rect = img_start_button.get_rect(center=POS_PLAY_BUTTON)
 # SOUNDS
-collision_sound = pygame.mixer.Sound("assets/coin.mp3")
+collision_sound = pygame.mixer.Sound("assets/sounds/coin.mp3")
 playing_music = True
 
 rect_w = 100
@@ -128,6 +138,8 @@ coins = []
 # Carga la cantidad de monedas(10)
 load_coin_list(coins,INITIAL_QTY_COINS,asteroide_1)
 
+
+fuente_2 = pygame.font.Font("assets/font/dash-horizon.otf")
 
 
 score = 0

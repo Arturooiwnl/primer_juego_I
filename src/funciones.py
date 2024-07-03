@@ -93,9 +93,9 @@ def draw_button(screen, rect, text, text_color, rect_color, mouse_pos):
     text_rect = text_surface.get_rect(center=temp_rect.center)
     screen.blit(text_surface, text_rect)
 
-def draw_rect(screen, rect, text, text_color, font, rect_color, rect_center:tuple):
+def draw_rect(screen, rect, text, text_color, font, rect_color, borde,rect_center:tuple):
 
-    pygame.draw.rect(screen, rect_color, rect, 0, 10)
+    pygame.draw.rect(screen, rect_color, rect, borde, 10)
     text_surface = font.render(text, True, text_color)
     text_rect = text_surface.get_rect(center=rect_center)
     screen.blit(text_surface, text_rect)

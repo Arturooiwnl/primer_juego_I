@@ -21,6 +21,7 @@ image_mesa = pygame.transform.scale(image_mesa, (110, 110))
 image_armario = pygame.image.load("imagenes/muebles/armario.png")
 image_armario = pygame.transform.scale(image_armario, (110, 110))
 
+
 #sonidos 
 
 sound_yes = pygame.mixer.Sound("sounds/buttons/yes1.mp3")
